@@ -84,9 +84,13 @@
         </ul>
         <form id="quicksearchForm" name="quicksearchForm" action="[% basepath FILTER none %]buglist.cgi" data-no-csrf>
           <div>
-            <input id="quicksearch_main" type="text" name="quicksearch" autofocus
-              placeholder="Enter [% terms.abug %] number or some search terms"
-              title="Quick Search">
+            <input id="quicksearch_main"
+                   type="text"
+                   name="quicksearch"
+                   autofocus
+                   placeholder="Enter [% terms.abug %] number or some search terms"
+                   title="Quick Search"
+                   aria-labelledby="find">
             <input id="find" type="submit" value="Quick Search">
             <ul class="additional_links" id="quicksearch_links">
               <li>
