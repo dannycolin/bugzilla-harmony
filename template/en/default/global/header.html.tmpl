@@ -51,7 +51,6 @@
   onload = ""
   javascript_urls = []
   style_urls = []
-  no_yui = 0
   jquery = []
   jquery_css = []
   generate_api_token = 1
@@ -65,10 +64,6 @@
   "js/jquery/jquery-min.js",
   "js/jquery/ui/jquery-ui-min.js"
 ] %]
-
-[% IF NOT no_yui %]
-  [% starting_js_urls.push("js/yui.js") %]
-[% END %]
 
 [% SET jq_css_urls = [
   "js/jquery/ui/jquery-ui-min.css",
@@ -126,6 +121,7 @@
             },
             string => {
                 # Please keep these in alphabetical order.
+                bug => "$terms.bug",
                 bug_type_required =>
                     "You must select a Type for this $terms.bug",
                 component_required =>
@@ -161,7 +157,7 @@
 
     [% PROCESS 'global/setting-descs.none.tmpl' %]
 
-    [% SET css_sets = css_files(style_urls.unique, no_yui) %]
+    [% SET css_sets = css_files(style_urls.unique) %]
     [% FOREACH asset_url = css_sets.standard %]
       [% PROCESS format_css_link %]
     [% END %]
@@ -190,14 +186,7 @@
     [% END %]
 
     [% inline_javascript = BLOCK %]
-        [% IF NOT no_yui %]
-          YAHOO.namespace('bugzilla');
-          if ( "onpagehide" in window || YAHOO.env.ua.gecko) {
-              YAHOO.util.Event._simpleRemove(window, "unload",
-                                             YAHOO.util.Event._unload);
-          }
-          [% INCLUDE 'global/value-descs.js.tmpl' %]
-        [% END %]
+        [% INCLUDE 'global/value-descs.js.tmpl' %]
 
         [% IF javascript %]
           [% javascript %]
@@ -247,7 +236,7 @@
                [% END %]
                [% FOREACH class = bodyclasses %]
                  [% ' ' %][% class FILTER css_class_quote %]
-               [% END %] yui-skin-sam">
+               [% END %]">
 
 [%# Migration note: the following file corresponds to the old Param
   # 'bannerhtml'
